@@ -1,5 +1,6 @@
-package com.treathunter;
+package com.treathunter.rest.clients;
 
+import com.treathunter.rest.dto.BrandDto;
 import feign.Headers;
 import feign.Param;
 import feign.RequestLine;
@@ -8,12 +9,12 @@ import java.util.List;
 
 public interface  BrandClient {
     @RequestLine("GET /{id}")
-    BrandResponseDto findById(@Param("id") String isbn);
+    BrandDto findById(@Param("id") String isbn);
 
     @RequestLine("GET")
-    List<BrandResponseDto> findAll();
+    List<BrandDto> findAll();
 
     @RequestLine("POST")
     @Headers("Content-Type: application/json")
-    void create(BrandResponseDto brandResponseDto);
+    void create(BrandDto brandDto);
 }

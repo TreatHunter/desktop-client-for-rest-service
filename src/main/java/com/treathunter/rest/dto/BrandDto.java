@@ -1,6 +1,6 @@
-package com.treathunter;
+package com.treathunter.rest.dto;
 
-public class BrandResponseDto {
+public class BrandDto {
     private Long id;
 
     private String name;

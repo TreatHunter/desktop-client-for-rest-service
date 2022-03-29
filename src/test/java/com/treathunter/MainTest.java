@@ -1,5 +1,7 @@
 package com.treathunter;
 
+import com.treathunter.rest.clients.BrandClient;
+import com.treathunter.rest.dto.BrandDto;
 import feign.Feign;
 import feign.Logger;
 import feign.gson.GsonDecoder;
@@ -23,7 +25,7 @@ public class MainTest {
                 .logger(new Slf4jLogger(BrandClient.class))
                 .logLevel(Logger.Level.FULL)
                 .target(BrandClient.class, "http://localhost:8080/brands");
-        List<BrandResponseDto> brandResponseDtoList = brandClient.findAll().stream()
+        List<BrandDto> brandResponseDtoList = brandClient.findAll().stream()
                 .peek((System.out::println))
                 .collect(Collectors.toList());
         System.out.println(brandResponseDtoList);
