@@ -8,17 +8,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-public class AddClothDialog extends JDialog {
+public class UpdateClothDialog extends JDialog {
     private boolean createdEntity = false;
     private Cloth cloth;
 
-    AddClothDialog(JFrame owner, List<Brand> allBrands, List<ClothType> allClothTypes){
+    UpdateClothDialog(Cloth oldCloth, JFrame owner, List<Brand> allBrands, List<ClothType> allClothTypes){
         super(owner,"Добавить новую одежду",true);
-
+        cloth = oldCloth;
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints cs = new GridBagConstraints();
         cs.fill = GridBagConstraints.HORIZONTAL;
- //
+        //
 
         JLabel lbClothType = new JLabel("тип одежды: ");
         cs.gridx = 0;
@@ -33,6 +33,13 @@ public class AddClothDialog extends JDialog {
         cs.gridwidth = 1;
         panel.add(clothTypedCmb, cs);
 
+        int clothTypeIndex = allClothTypes.indexOf(allClothTypes
+                .stream()
+                .filter( el -> cloth.getClothType().getId() == el.getId())
+                .findAny()
+                .orElse(null));
+        clothTypedCmb.setSelectedIndex(clothTypeIndex);
+
         JLabel lbBrand = new JLabel("бренд: ");
         cs.gridx = 0;
         cs.gridy = 1;
@@ -45,6 +52,12 @@ public class AddClothDialog extends JDialog {
         cs.gridy = 1;
         cs.gridwidth = 1;
         panel.add(brandCmb, cs);
+        int brandIndex = allBrands.indexOf(allBrands
+                .stream()
+                .filter( el -> cloth.getBrand().getId() == el.getId())
+                .findAny()
+                .orElse(null));
+        brandCmb.setSelectedIndex(brandIndex);
 
         JLabel lbName = new JLabel("Название: ");
         cs.gridx = 0;
@@ -57,6 +70,7 @@ public class AddClothDialog extends JDialog {
         cs.gridy = 2;
         cs.gridwidth = 2;
         panel.add(tfName, cs);
+        tfName.setText(cloth.getName());
 
         JLabel lbSize = new JLabel("Размер: ");
         cs.gridx = 0;
@@ -69,6 +83,7 @@ public class AddClothDialog extends JDialog {
         cs.gridy = 3;
         cs.gridwidth = 2;
         panel.add(tfSize, cs);
+        tfSize.setText(cloth.getSize());
 
         JLabel lbPrice = new JLabel("цена: ");
         cs.gridx = 0;
@@ -81,6 +96,7 @@ public class AddClothDialog extends JDialog {
         cs.gridy = 4;
         cs.gridwidth = 2;
         panel.add(tfPrice, cs);
+        tfPrice.setText(String.valueOf(cloth.getPrice()));
 
         JLabel lbBarcode = new JLabel("баркод: ");
         cs.gridx = 0;
@@ -93,6 +109,7 @@ public class AddClothDialog extends JDialog {
         cs.gridy = 5;
         cs.gridwidth = 2;
         panel.add(tfBarcode, cs);
+        tfBarcode.setText(String.valueOf(cloth.getBarcode()));
 
         JLabel lbStatus = new JLabel("cтатус товара: ");
         cs.gridx = 0;
@@ -105,6 +122,7 @@ public class AddClothDialog extends JDialog {
         cs.gridy = 6;
         cs.gridwidth = 2;
         panel.add(tfStatus, cs);
+        tfStatus.setText(cloth.getStatus());
 //
         JButton btnAccept = new JButton("Принять");
         btnAccept.addActionListener(event -> {

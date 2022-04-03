@@ -17,4 +17,11 @@ public interface ClothClient {
     @RequestLine("POST")
     @Headers("Content-Type: application/json")
     void create(ClothDto clothDto);
+
+    @RequestLine("PUT ?id={id}")
+    @Headers("Content-Type: application/json")
+    void update(@Param("id") String isbn,ClothDto clothDto);
+
+    @RequestLine("DELETE ?id={id}")
+    void delete(@Param("id") String isbn);
 }
