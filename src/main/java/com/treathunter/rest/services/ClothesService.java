@@ -4,6 +4,9 @@ import com.treathunter.rest.clients.BrandClient;
 import com.treathunter.rest.clients.ClientsContainer;
 import com.treathunter.rest.clients.ClothClient;
 import com.treathunter.rest.clients.ClothTypeClient;
+import com.treathunter.rest.dto.BrandDto;
+import com.treathunter.rest.dto.ClothDto;
+import com.treathunter.rest.dto.ClothTypeDto;
 import com.treathunter.rest.entities.Brand;
 import com.treathunter.rest.entities.Cloth;
 import com.treathunter.rest.entities.ClothType;
@@ -15,7 +18,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class ClothService {
+public class ClothesService {
     private final ClientsContainer clientsContainer;
     private final ClothTypeMapper clothTypeMapper;
     private final BrandMapper brandMapper;
@@ -25,7 +28,7 @@ public class ClothService {
     private BrandClient brandClient;
     private ClothTypeClient clothTypeClient;
 
-    public ClothService(ClothTypeMapper clothTypeMapper, BrandMapper brandMapper, ClientsContainer clientsContainer, ClothMapper clothMapper) {
+    public ClothesService(ClothTypeMapper clothTypeMapper, BrandMapper brandMapper, ClientsContainer clientsContainer, ClothMapper clothMapper) {
         this.clothTypeMapper = clothTypeMapper;
         this.brandMapper = brandMapper;
         this.clientsContainer = clientsContainer;
@@ -36,19 +39,27 @@ public class ClothService {
         clothTypeClient = clientsContainer.getClothTypeClient();
     }
 
-    public List<Cloth> getAllClothes(){
+    public List<Cloth> getAllClothes() {
         return clothMapper.clothRequestDtoToCloth(clothClient.findAll());
     }
 
-    public List<Brand> getAllBrands(){
+    public List<Brand> getAllBrands() {
         return brandMapper.brandRequestDtoToBrand(brandClient.findAll());
     }
 
-    public List<ClothType> getAllClothTypes(){
+    public List<ClothType> getAllClothTypes() {
         return clothTypeMapper.clothTypeRequestDtoToClothType(clothTypeClient.findAll());
     }
 
     public void addCloth (Cloth cloth) {
+        if(0l == cloth.getBrand().getId()){
+            BrandDto savedBrandDto = brandClient.create(brandMapper.brandToBrandResponseDto(cloth.getBrand()));
+            cloth.setBrand(brandMapper.brandRequestDtoToBrand(savedBrandDto));
+        }
+        if(0l == cloth.getClothType().getId()){
+            ClothTypeDto savedClothTypeDto = clothTypeClient.create(clothTypeMapper.clothTypeToClothTypeResponseDto(cloth.getClothType()));
+            cloth.setClothType(clothTypeMapper.clothTypeRequestDtoToClothType(savedClothTypeDto));
+        }
         clothClient.create(clothMapper.clothToClothResponseDto(cloth));
     }
 
@@ -57,6 +68,14 @@ public class ClothService {
     }
 
     public void updateCloth(String id, Cloth cloth) {
+        if(0l == cloth.getBrand().getId()) {
+            BrandDto savedBrandDto = brandClient.create(brandMapper.brandToBrandResponseDto(cloth.getBrand()));
+            cloth.setBrand(brandMapper.brandRequestDtoToBrand(savedBrandDto));
+        }
+        if(0l == cloth.getClothType().getId()) {
+            ClothTypeDto savedClothTypeDto = clothTypeClient.create(clothTypeMapper.clothTypeToClothTypeResponseDto(cloth.getClothType()));
+            cloth.setClothType(clothTypeMapper.clothTypeRequestDtoToClothType(savedClothTypeDto));
+        }
         clothClient.update(id, clothMapper.clothToClothResponseDto(cloth));
     }
 

@@ -1,9 +1,7 @@
 package com.treathunter.ui.clothes;
 
-import com.treathunter.rest.clients.ClientsContainer;
-import com.treathunter.rest.dto.ClothDto;
 import com.treathunter.rest.entities.Cloth;
-import com.treathunter.rest.services.ClothService;
+import com.treathunter.rest.services.ClothesService;
 import com.treathunter.ui.ProductTypeTableModel;
 
 import javax.swing.*;
@@ -11,8 +9,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 
-public class ClothPane extends JPanel {
-    private final ClothService clothService;
+public class ClothesPane extends JPanel {
+    private final ClothesService clothesService;
     private JFrame appframe;
     private ProductTypeTableModel<Cloth> productTypeTableModel;
     private JTable productTable;
@@ -28,18 +26,18 @@ public class ClothPane extends JPanel {
         deleteProduct = new JButton("удaлить");
 
         addProduct.addActionListener( actionEvent -> {
-            AddClothDialog addClothDialog = new AddClothDialog(appframe,clothService.getAllBrands(),clothService.getAllClothTypes());
+            AddClothDialog addClothDialog = new AddClothDialog(appframe, clothesService.getAllBrands(), clothesService.getAllClothTypes());
             addClothDialog.setVisible(true);
             if (addClothDialog.isCreatedEntity()) {
-                clothService.addCloth(addClothDialog.getCloth());
-                productTypeTableModel.updateTable(clothService.getAllClothes());
+                clothesService.addCloth(addClothDialog.getEntity());
+                productTypeTableModel.updateTable(clothesService.getAllClothes());
             }
         });
 
         deleteProduct.addActionListener(actionEvent -> {
             if (productTable.getSelectedRow() != -1) {
-                clothService.deleteCloth(productTable.getValueAt(productTable.getSelectedRow(),0).toString());
-                productTypeTableModel.updateTable(clothService.getAllClothes());
+                clothesService.deleteCloth(productTable.getValueAt(productTable.getSelectedRow(),0).toString());
+                productTypeTableModel.updateTable(clothesService.getAllClothes());
             } else {
                 JOptionPane.showMessageDialog(appframe,
                         "Не выбран элемент для удаления",
@@ -51,14 +49,14 @@ public class ClothPane extends JPanel {
         updateProduct.addActionListener(actionEvent -> {
             if (productTable.getSelectedRow() != -1) {
                 String clothId = productTable.getValueAt(productTable.getSelectedRow(),0).toString();
-                UpdateClothDialog updateClothDialog = new UpdateClothDialog(clothService.getClothById(clothId),
+                UpdateClothDialog updateClothDialog = new UpdateClothDialog(clothesService.getClothById(clothId),
                         appframe,
-                        clothService.getAllBrands(),
-                        clothService.getAllClothTypes());
+                        clothesService.getAllBrands(),
+                        clothesService.getAllClothTypes());
                 updateClothDialog.setVisible(true);
                 if (updateClothDialog.isCreatedEntity()) {
-                    clothService.updateCloth(clothId,updateClothDialog.getCloth());
-                    productTypeTableModel.updateTable(clothService.getAllClothes());
+                    clothesService.updateCloth(clothId,updateClothDialog.getEntity());
+                    productTypeTableModel.updateTable(clothesService.getAllClothes());
                 }
             } else {
                 JOptionPane.showMessageDialog(appframe,
@@ -80,8 +78,8 @@ public class ClothPane extends JPanel {
         this.add(new JScrollPane(productTable));
     }
 
-    public ClothPane(ClothService clothService, JFrame appframe) {
-        this.clothService = clothService;
+    public ClothesPane(ClothesService clothesService, JFrame appframe) {
+        this.clothesService = clothesService;
         this.appframe = appframe;
 
         String[] ColumnNames = {
@@ -111,7 +109,7 @@ public class ClothPane extends JPanel {
 
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         generateActionsButtonPanel();
-        generateProductsTable(ColumnNames,clothService.getAllClothes(),brandGetters);
+        generateProductsTable(ColumnNames, clothesService.getAllClothes(),brandGetters);
 
         this.setVisible(true);
     }

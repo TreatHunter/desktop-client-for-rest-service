@@ -17,5 +17,5 @@ public interface ClothTypeClient {
 
     @RequestLine("POST")
     @Headers("Content-Type: application/json")
-    void create(ClothTypeDto clothTypeDtoDto);
+    ClothTypeDto create(ClothTypeDto clothTypeDtoDto);
 }

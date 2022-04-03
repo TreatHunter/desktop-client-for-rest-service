@@ -1,7 +1,7 @@
 package com.treathunter;
 
-import com.treathunter.rest.services.ClothService;
-import com.treathunter.ui.clothes.ClothPane;
+import com.treathunter.rest.services.ClothesService;
+import com.treathunter.ui.clothes.ClothesPane;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -10,10 +10,10 @@ import javax.swing.*;
 
 @SpringBootApplication
 public class Main implements CommandLineRunner {
-    private final ClothService clothService;
+    private final ClothesService clothesService;
 
-    public Main(ClothService clothService) {
-        this.clothService = clothService;
+    public Main(ClothesService clothesService) {
+        this.clothesService = clothesService;
     }
 
 
@@ -27,8 +27,8 @@ public class Main implements CommandLineRunner {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1280,720);
         frame.setResizable(false);
-        ClothPane clothPane = new ClothPane(clothService, frame);
-        frame.setContentPane(clothPane);
+        ClothesPane clothesPane = new ClothesPane(clothesService, frame);
+        frame.setContentPane(clothesPane);
         frame.setVisible(true);
 
 

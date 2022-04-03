@@ -3,6 +3,8 @@ package com.treathunter.ui.clothes;
 import com.treathunter.rest.entities.Brand;
 import com.treathunter.rest.entities.Cloth;
 import com.treathunter.rest.entities.ClothType;
+import com.treathunter.ui.settingsEntities.brand.AddBrandDialog;
+import com.treathunter.ui.settingsEntities.clothType.AddClothTypeDialog;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,6 +35,27 @@ public class AddClothDialog extends JDialog {
         cs.gridwidth = 1;
         panel.add(clothTypedCmb, cs);
 
+        cs.gridx = 2;
+        cs.gridy = 0;
+        cs.gridwidth = 1;
+        panel.add(Box.createRigidArea(new Dimension(1,1)), cs);
+
+        JButton btnAddClothType = new JButton("Новый");
+        cs.gridx = 3;
+        cs.gridy = 0;
+        cs.gridwidth = 1;
+        panel.add(btnAddClothType,cs);
+
+        btnAddClothType.addActionListener(actionEvent -> {
+            AddClothTypeDialog addClothTypeDialog = new AddClothTypeDialog(this);
+            addClothTypeDialog.setVisible(true);
+            if (addClothTypeDialog.isCreatedEntity()) {
+                allClothTypes.add(addClothTypeDialog.getEntity());
+                clothTypedCmb.addItem(addClothTypeDialog.getEntity().getName());
+                clothTypedCmb.setSelectedIndex(clothTypedCmb.getItemCount() - 1);
+            }
+        });
+
         JLabel lbBrand = new JLabel("бренд: ");
         cs.gridx = 0;
         cs.gridy = 1;
@@ -45,6 +68,27 @@ public class AddClothDialog extends JDialog {
         cs.gridy = 1;
         cs.gridwidth = 1;
         panel.add(brandCmb, cs);
+
+        cs.gridx = 2;
+        cs.gridy = 1;
+        cs.gridwidth = 1;
+        panel.add(Box.createRigidArea(new Dimension(1,1)), cs);
+
+        JButton btnAddBrand = new JButton("Новый");
+        cs.gridx = 3;
+        cs.gridy = 1;
+        cs.gridwidth = 1;
+        panel.add(btnAddBrand,cs);
+
+        btnAddBrand.addActionListener(actionEvent -> {
+            AddBrandDialog addBrandDialog = new AddBrandDialog(this);
+            addBrandDialog.setVisible(true);
+            if (addBrandDialog.isCreatedEntity()) {
+                allBrands.add(addBrandDialog.getEntity());
+                brandCmb.addItem(addBrandDialog.getEntity().getName());
+                brandCmb.setSelectedIndex(brandCmb.getItemCount() - 1);
+            }
+        });
 
         JLabel lbName = new JLabel("Название: ");
         cs.gridx = 0;
@@ -184,7 +228,7 @@ public class AddClothDialog extends JDialog {
         return createdEntity;
     }
 
-    public Cloth getCloth() {
+    public Cloth getEntity() {
         return cloth;
     }
 }
