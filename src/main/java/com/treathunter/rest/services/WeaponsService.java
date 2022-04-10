@@ -12,12 +12,12 @@ import com.treathunter.rest.mappers.BrandMapper;
 import com.treathunter.rest.mappers.CaliberMapper;
 import com.treathunter.rest.mappers.WeaponMapper;
 import com.treathunter.rest.mappers.WeaponTypeMapper;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 
-@Component
+@Service
 public class WeaponsService {
     private final WeaponMapper weaponMapper;
     private final WeaponTypeMapper weaponTypeMapper;

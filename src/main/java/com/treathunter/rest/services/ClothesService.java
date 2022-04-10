@@ -11,11 +11,11 @@ import com.treathunter.rest.entities.ClothType;
 import com.treathunter.rest.mappers.BrandMapper;
 import com.treathunter.rest.mappers.ClothMapper;
 import com.treathunter.rest.mappers.ClothTypeMapper;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Component
+@Service
 public class ClothesService {
     private final ClothTypeMapper clothTypeMapper;
     private final BrandMapper brandMapper;

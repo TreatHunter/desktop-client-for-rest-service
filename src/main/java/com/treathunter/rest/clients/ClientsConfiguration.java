@@ -78,4 +78,27 @@ public class ClientsConfiguration {
                 .logLevel(Logger.Level.FULL)
                 .target(CaliberClient.class, "http://localhost:8080/calibers");
     }
+
+    @Bean
+    public CartridgeTypeClient getCartridgeTypeClient () {
+        return Feign.builder()
+                .client(new OkHttpClient())
+                .encoder(new GsonEncoder())
+                .decoder(new GsonDecoder())
+                .logger(new Slf4jLogger(CartridgeTypeClient.class))
+                .logLevel(Logger.Level.FULL)
+                .target(CartridgeTypeClient.class, "http://localhost:8080/cartridgetypes");
+    }
+
+    @Bean
+    public CartridgeBoxClient getCartridgeBoxClient () {
+        return Feign.builder()
+                .client(new OkHttpClient())
+                .encoder(new GsonEncoder())
+                .decoder(new GsonDecoder())
+                .logger(new Slf4jLogger(CartridgeBoxClient.class))
+                .logLevel(Logger.Level.FULL)
+                .target(CartridgeBoxClient.class, "http://localhost:8080/cartridgeboxes");
+    }
+
 }
