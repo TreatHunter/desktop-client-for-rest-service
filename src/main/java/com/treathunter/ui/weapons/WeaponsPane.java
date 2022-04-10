@@ -1,7 +1,9 @@
 package com.treathunter.ui.weapons;
 
 import com.treathunter.rest.entities.Cloth;
+import com.treathunter.rest.entities.Weapon;
 import com.treathunter.rest.services.ClothesService;
+import com.treathunter.rest.services.WeaponsService;
 import com.treathunter.ui.ProductTypeTableModel;
 
 import javax.swing.*;
@@ -10,9 +12,9 @@ import java.util.List;
 import java.util.function.Function;
 
 public class WeaponsPane extends JPanel {
-    private final ClothesService clothesService;
+    private final WeaponsService weaponsService;
     private JFrame appframe;
-    private ProductTypeTableModel<Cloth> productTypeTableModel;
+    private ProductTypeTableModel<Weapon> productTypeTableModel;
     private JTable productTable;
     private JPanel actionsButtonsPanel;
     private JButton addProduct;
@@ -25,19 +27,25 @@ public class WeaponsPane extends JPanel {
         updateProduct = new JButton("изменить");
         deleteProduct = new JButton("удaлить");
 
- /*       addProduct.addActionListener( actionEvent -> {
-            AddClothDialog addClothDialog = new AddClothDialog(appframe,clothService.getAllBrands(),clothService.getAllClothTypes());
-            addClothDialog.setVisible(true);
-            if (addClothDialog.isCreatedEntity()) {
-                clothService.addCloth(addClothDialog.getEntity());
-                productTypeTableModel.updateTable(clothService.getAllClothes());
+        addProduct.addActionListener( actionEvent -> {
+            AddWeaponDialog addWeaponDialog = new AddWeaponDialog(
+                    appframe,
+                    weaponsService.getAllBrands(),
+                    weaponsService.getAllWeaponTypes(),
+                    weaponsService.getAllCalibers()
+            );
+            addWeaponDialog.setVisible(true);
+            if (addWeaponDialog.isCreatedEntity()) {
+                weaponsService.addWeapon(addWeaponDialog.getEntity());
+                productTypeTableModel.updateTable(weaponsService.getAllWeapons());
             }
         });
 
         deleteProduct.addActionListener(actionEvent -> {
             if (productTable.getSelectedRow() != -1) {
-                clothService.deleteCloth(productTable.getValueAt(productTable.getSelectedRow(),0).toString());
-                productTypeTableModel.updateTable(clothService.getAllClothes());
+                String weaponId = productTable.getValueAt(productTable.getSelectedRow(),0).toString();
+                weaponsService.deleteWeapon(weaponId);
+                productTypeTableModel.updateTable(weaponsService.getAllWeapons());
             } else {
                 JOptionPane.showMessageDialog(appframe,
                         "Не выбран элемент для удаления",
@@ -48,15 +56,18 @@ public class WeaponsPane extends JPanel {
 
         updateProduct.addActionListener(actionEvent -> {
             if (productTable.getSelectedRow() != -1) {
-                String clothId = productTable.getValueAt(productTable.getSelectedRow(),0).toString();
-                UpdateClothDialog updateClothDialog = new UpdateClothDialog(clothService.getClothById(clothId),
+                String weaponId = productTable.getValueAt(productTable.getSelectedRow(),0).toString();
+                UpdateWeaponDialog updateWeaponDialog = new UpdateWeaponDialog(
+                        weaponsService.getWeaponById(weaponId),
                         appframe,
-                        clothService.getAllBrands(),
-                        clothService.getAllClothTypes());
-                updateClothDialog.setVisible(true);
-                if (updateClothDialog.isCreatedEntity()) {
-                    clothService.updateCloth(clothId,updateClothDialog.getEntity());
-                    productTypeTableModel.updateTable(clothService.getAllClothes());
+                        weaponsService.getAllBrands(),
+                        weaponsService.getAllWeaponTypes(),
+                        weaponsService.getAllCalibers()
+                );;
+                updateWeaponDialog.setVisible(true);
+                if (updateWeaponDialog.isCreatedEntity()) {
+                    weaponsService.updateWeapon(weaponId,updateWeaponDialog.getEntity());
+                    productTypeTableModel.updateTable(weaponsService.getAllWeapons());
                 }
             } else {
                 JOptionPane.showMessageDialog(appframe,
@@ -64,7 +75,7 @@ public class WeaponsPane extends JPanel {
                         "Не выбран элемент для изменения",
                         JOptionPane.ERROR_MESSAGE);
             }
-        }); */
+        });
 
         actionsButtonsPanel.add(addProduct);
         actionsButtonsPanel.add(updateProduct);
@@ -72,44 +83,44 @@ public class WeaponsPane extends JPanel {
         this.add(actionsButtonsPanel);
     }
 
-    public void generateProductsTable(String[] columnNames, List<Cloth> productsList, List<Function<Cloth, String>> productFieldsGetters) {
-        productTypeTableModel = new ProductTypeTableModel<Cloth>(columnNames,productsList,productFieldsGetters);
+    public void generateProductsTable(String[] columnNames, List<Weapon> productsList, List<Function<Weapon, String>> productFieldsGetters) {
+        productTypeTableModel = new ProductTypeTableModel<Weapon>(columnNames,productsList,productFieldsGetters);
         productTable = new JTable(productTypeTableModel);
         this.add(new JScrollPane(productTable));
     }
 
-    public WeaponsPane(ClothesService clothesService, JFrame appframe) {
-        this.clothesService = clothesService;
+    public WeaponsPane(WeaponsService weaponsService, JFrame appframe) {
+        this.weaponsService = weaponsService;
         this.appframe = appframe;
 
         String[] ColumnNames = {
                 "id",
-                "clothType",
+                "weaponType",
                 "brand",
                 "name",
-                "size",
+                "caliber",
                 "price",
                 "barcode",
                 "status",
                 "photoUrl"
         };
-        List<Function<Cloth,String>> brandGetters = Arrays.asList(
-                (Function<Cloth,String>) b -> String.valueOf(b.getId()),
-                (Function<Cloth,String>) b -> b.getClothType().getName(),
-                (Function<Cloth,String>) b -> b.getBrand().getName(),
-                (Function<Cloth,String>) b -> b.getName(),
-                (Function<Cloth,String>) b -> b.getSize(),
-                (Function<Cloth,String>) b -> String.valueOf(b.getPrice()),
-                (Function<Cloth,String>) b -> String.valueOf(b.getBarcode()),
-                (Function<Cloth,String>) b -> b.getStatus(),
-                (Function<Cloth,String>) b -> b.getPhotoUrl()
+        List<Function<Weapon,String>> brandGetters = Arrays.asList(
+                (Function<Weapon,String>) b -> String.valueOf(b.getId()),
+                (Function<Weapon,String>) b -> b.getWeaponType().getName(),
+                (Function<Weapon,String>) b -> b.getBrand().getName(),
+                (Function<Weapon,String>) b -> b.getName(),
+                (Function<Weapon,String>) b -> b.getCaliber().getName(),
+                (Function<Weapon,String>) b -> String.valueOf(b.getPrice()),
+                (Function<Weapon,String>) b -> String.valueOf(b.getBarcode()),
+                (Function<Weapon,String>) b -> b.getStatus(),
+                (Function<Weapon,String>) b -> b.getPhotoUrl()
 
         );
 
 
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         generateActionsButtonPanel();
-        generateProductsTable(ColumnNames, clothesService.getAllClothes(),brandGetters);
+        generateProductsTable(ColumnNames, weaponsService.getAllWeapons(),brandGetters);
 
         this.setVisible(true);
     }

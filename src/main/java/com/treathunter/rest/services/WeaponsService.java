@@ -2,7 +2,10 @@ package com.treathunter.rest.services;
 
 import com.treathunter.rest.clients.*;
 import com.treathunter.rest.dto.BrandDto;
+import com.treathunter.rest.dto.CaliberDto;
 import com.treathunter.rest.dto.ClothTypeDto;
+import com.treathunter.rest.dto.WeaponTypeDto;
+import com.treathunter.rest.entities.Brand;
 import com.treathunter.rest.entities.Caliber;
 import com.treathunter.rest.entities.Weapon;
 import com.treathunter.rest.entities.WeaponType;
@@ -41,16 +44,20 @@ public class WeaponsService {
         this.brandClient = clientsContainer.getBrandClient();
     }
 
-    public List<Weapon> getAllWeapons() {
+    public List<Weapon> getAllWeapons () {
         return weaponMapper.weaponRequestDtoToWeapon(weaponClient.findAll());
     }
 
-    public List<WeaponType> getAllWeaponTypes() {
+    public List<WeaponType> getAllWeaponTypes () {
         return weaponTypeMapper.weaponTypeRequestDtoToWeaponType(weaponTypeClient.findAll());
     }
 
-    public List<Caliber> getAllCalibers() {
+    public List<Caliber> getAllCalibers () {
         return caliberMapper.caliberRequestDtoToCaliber(caliberClient.findAll());
+    }
+
+    public List<Brand> getAllBrands () {
+        return brandMapper.brandRequestDtoToBrand(brandClient.findAll());
     }
 
     public Weapon getWeaponById (String id) {
@@ -60,4 +67,37 @@ public class WeaponsService {
     public void deleteWeapon (String id) {
         weaponClient.delete(id);
     }
+
+    public void addWeapon (Weapon weapon) {
+        if (0l == weapon.getBrand().getId()) {
+            BrandDto savedBrandDto = brandClient.create(brandMapper.brandToBrandResponseDto(weapon.getBrand()));
+            weapon.setBrand(brandMapper.brandRequestDtoToBrand(savedBrandDto));
+        }
+        if (0l == weapon.getWeaponType().getId()) {
+            WeaponTypeDto savedWeaponTypeDto = weaponTypeClient.create(weaponTypeMapper.weaponTypeToWeaponTypeResponseDto(weapon.getWeaponType()));
+            weapon.setWeaponType(weaponTypeMapper.weaponTypeRequestDtoToWeaponType(savedWeaponTypeDto));
+        }
+        if (0l == weapon.getCaliber().getId()) {
+            CaliberDto savedCaliberDto = caliberClient.create(caliberMapper.caliberToCaliberResponseDto(weapon.getCaliber()));
+            weapon.setCaliber(caliberMapper.caliberRequestDtoToCaliber(savedCaliberDto));
+        }
+        weaponClient.create(weaponMapper.weaponToWeaponResponseDto(weapon));
+    }
+
+    public void updateWeapon (String id, Weapon weapon) {
+        if (0l == weapon.getBrand().getId()) {
+            BrandDto savedBrandDto = brandClient.create(brandMapper.brandToBrandResponseDto(weapon.getBrand()));
+            weapon.setBrand(brandMapper.brandRequestDtoToBrand(savedBrandDto));
+        }
+        if (0l == weapon.getWeaponType().getId()) {
+            WeaponTypeDto savedWeaponTypeDto = weaponTypeClient.create(weaponTypeMapper.weaponTypeToWeaponTypeResponseDto(weapon.getWeaponType()));
+            weapon.setWeaponType(weaponTypeMapper.weaponTypeRequestDtoToWeaponType(savedWeaponTypeDto));
+        }
+        if (0l == weapon.getCaliber().getId()) {
+            CaliberDto savedCaliberDto = caliberClient.create(caliberMapper.caliberToCaliberResponseDto(weapon.getCaliber()));
+            weapon.setCaliber(caliberMapper.caliberRequestDtoToCaliber(savedCaliberDto));
+        }
+        weaponClient.update(id, weaponMapper.weaponToWeaponResponseDto(weapon));
+    }
+
 }
