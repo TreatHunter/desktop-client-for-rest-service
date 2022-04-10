@@ -3,7 +3,6 @@ package com.treathunter.rest.services;
 import com.treathunter.rest.clients.*;
 import com.treathunter.rest.dto.BrandDto;
 import com.treathunter.rest.dto.CaliberDto;
-import com.treathunter.rest.dto.ClothTypeDto;
 import com.treathunter.rest.dto.WeaponTypeDto;
 import com.treathunter.rest.entities.Brand;
 import com.treathunter.rest.entities.Caliber;
@@ -20,28 +19,26 @@ import java.util.List;
 
 @Component
 public class WeaponsService {
-    private final ClientsContainer clientsContainer;
     private final WeaponMapper weaponMapper;
     private final WeaponTypeMapper weaponTypeMapper;
     private final CaliberMapper caliberMapper;
     private final BrandMapper brandMapper;
 
-    private WeaponClient weaponClient;
-    private WeaponTypeClient weaponTypeClient;
-    private CaliberClient caliberClient;
-    private BrandClient brandClient;
+    private final WeaponClient weaponClient;
+    private final WeaponTypeClient weaponTypeClient;
+    private final CaliberClient caliberClient;
+    private final BrandClient brandClient;
 
-    public WeaponsService(ClientsContainer clientsContainer, WeaponMapper weaponMapper, WeaponTypeMapper weaponTypeMapper, CaliberMapper caliberMapper, BrandMapper brandMapper) {
-        this.clientsContainer = clientsContainer;
+    public WeaponsService(WeaponMapper weaponMapper, WeaponTypeMapper weaponTypeMapper, CaliberMapper caliberMapper, BrandMapper brandMapper, WeaponClient weaponClient, WeaponTypeClient weaponTypeClient, CaliberClient caliberClient, BrandClient brandClient) {
         this.weaponMapper = weaponMapper;
         this.weaponTypeMapper = weaponTypeMapper;
         this.caliberMapper = caliberMapper;
         this.brandMapper = brandMapper;
 
-        this.weaponClient = clientsContainer.getWeaponClient();
-        this.weaponTypeClient = clientsContainer.getWeaponTypeClient();
-        this.caliberClient = clientsContainer.getCaliberClient();
-        this.brandClient = clientsContainer.getBrandClient();
+        this.weaponClient = weaponClient;
+        this.weaponTypeClient = weaponTypeClient;
+        this.caliberClient = caliberClient;
+        this.brandClient = brandClient;
     }
 
     public List<Weapon> getAllWeapons () {

@@ -1,11 +1,9 @@
 package com.treathunter.rest.services;
 
 import com.treathunter.rest.clients.BrandClient;
-import com.treathunter.rest.clients.ClientsContainer;
 import com.treathunter.rest.clients.ClothClient;
 import com.treathunter.rest.clients.ClothTypeClient;
 import com.treathunter.rest.dto.BrandDto;
-import com.treathunter.rest.dto.ClothDto;
 import com.treathunter.rest.dto.ClothTypeDto;
 import com.treathunter.rest.entities.Brand;
 import com.treathunter.rest.entities.Cloth;
@@ -19,24 +17,22 @@ import java.util.List;
 
 @Component
 public class ClothesService {
-    private final ClientsContainer clientsContainer;
     private final ClothTypeMapper clothTypeMapper;
     private final BrandMapper brandMapper;
     private final ClothMapper clothMapper;
 
-    private ClothClient clothClient;
-    private BrandClient brandClient;
-    private ClothTypeClient clothTypeClient;
+    private final ClothClient clothClient;
+    private final BrandClient brandClient;
+    private final ClothTypeClient clothTypeClient;
 
-    public ClothesService(ClothTypeMapper clothTypeMapper, BrandMapper brandMapper, ClientsContainer clientsContainer, ClothMapper clothMapper) {
+    public ClothesService(ClothTypeMapper clothTypeMapper, BrandMapper brandMapper, ClothMapper clothMapper, ClothClient clothClient, BrandClient brandClient, ClothTypeClient clothTypeClient) {
         this.clothTypeMapper = clothTypeMapper;
         this.brandMapper = brandMapper;
-        this.clientsContainer = clientsContainer;
         this.clothMapper = clothMapper;
 
-        clothClient = clientsContainer.getClothClient();
-        brandClient = clientsContainer.getBrandClient();
-        clothTypeClient = clientsContainer.getClothTypeClient();
+        this.brandClient = brandClient;
+        this.clothTypeClient = clothTypeClient;
+        this.clothClient = clothClient;
     }
 
     public List<Cloth> getAllClothes() {

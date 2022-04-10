@@ -43,6 +43,5 @@ public class Main implements CommandLineRunner {
         frame.setContentPane(tabbedPane);
         frame.setVisible(true);
 
-
     }
 }
