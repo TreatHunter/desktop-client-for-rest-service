@@ -4,6 +4,7 @@ import com.treathunter.rest.clients.BrandClient;
 import com.treathunter.rest.clients.ClothClient;
 import com.treathunter.rest.clients.ClothTypeClient;
 import com.treathunter.rest.dto.BrandDto;
+import com.treathunter.rest.dto.ClothDto;
 import com.treathunter.rest.dto.ClothTypeDto;
 import com.treathunter.rest.entities.Brand;
 import com.treathunter.rest.entities.Cloth;
@@ -13,6 +14,7 @@ import com.treathunter.rest.mappers.ClothMapper;
 import com.treathunter.rest.mappers.ClothTypeMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -77,5 +79,15 @@ public class ClothesService {
 
     public Cloth getClothById(String id) {
         return clothMapper.clothRequestDtoToCloth(clothClient.findById(id));
+    }
+
+    public List<Cloth> getClothByBarcode(Long barcode) {
+        List<ClothDto> clothDtos = new ArrayList<ClothDto>();
+        try {
+            clothDtos = clothClient.findByBarcode(barcode);
+        } catch (Exception e) {
+
+        }
+        return clothMapper.clothRequestDtoToCloth(clothDtos);
     }
 }

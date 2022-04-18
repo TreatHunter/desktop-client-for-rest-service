@@ -1,8 +1,9 @@
-package com.treathunter.ui.clothes;
+package com.treathunter.ui.tablesPanels.clothes;
 
 import com.treathunter.rest.entities.Cloth;
 import com.treathunter.rest.services.ClothesService;
-import com.treathunter.ui.ProductTypeTableModel;
+import com.treathunter.ui.menuPanel.MenuPanel;
+import com.treathunter.ui.tablesPanels.ProductTypeTableModel;
 
 import javax.swing.*;
 import java.util.Arrays;
@@ -11,6 +12,7 @@ import java.util.function.Function;
 
 public class ClothesPane extends JPanel {
     private final ClothesService clothesService;
+    private final MenuPanel menuPanel;
     private JFrame appframe;
     private ProductTypeTableModel<Cloth> productTypeTableModel;
     private JTable productTable;
@@ -21,6 +23,8 @@ public class ClothesPane extends JPanel {
 
     public void generateActionsButtonPanel() {
         actionsButtonsPanel = new JPanel();
+        JButton returnButton = new JButton("Меню");
+        returnButton.addActionListener( e -> menuPanel.returnToMenu());
         addProduct = new JButton("добaвить");
         updateProduct = new JButton("изменить");
         deleteProduct = new JButton("удaлить");
@@ -65,10 +69,11 @@ public class ClothesPane extends JPanel {
                         JOptionPane.ERROR_MESSAGE);
             }
         });
-
+        actionsButtonsPanel.add(returnButton);
         actionsButtonsPanel.add(addProduct);
         actionsButtonsPanel.add(updateProduct);
         actionsButtonsPanel.add(deleteProduct);
+        actionsButtonsPanel.setBorder(BorderFactory.createTitledBorder("панель управления"));
         this.add(actionsButtonsPanel);
     }
 
@@ -78,9 +83,10 @@ public class ClothesPane extends JPanel {
         this.add(new JScrollPane(productTable));
     }
 
-    public ClothesPane(ClothesService clothesService, JFrame appframe) {
+    public ClothesPane(ClothesService clothesService, JFrame appframe, MenuPanel menuPanel) {
         this.clothesService = clothesService;
         this.appframe = appframe;
+        this.menuPanel = menuPanel;
 
         String[] ColumnNames = {
                 "id",

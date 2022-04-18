@@ -98,5 +98,4 @@ public class Cloth {
                 + ", price=" + price + ", barcode=" + barcode + ", status=" + status + ", photoUrl=" + photoUrl + "]";
     }
 
-
 }

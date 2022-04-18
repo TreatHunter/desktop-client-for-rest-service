@@ -1,26 +1,26 @@
-package com.treathunter.ui.clothes;
+package com.treathunter.ui.tablesPanels.clothes;
 
 import com.treathunter.rest.entities.Brand;
 import com.treathunter.rest.entities.Cloth;
 import com.treathunter.rest.entities.ClothType;
-import com.treathunter.ui.settingsEntities.brand.AddBrandDialog;
-import com.treathunter.ui.settingsEntities.clothType.AddClothTypeDialog;
+import com.treathunter.ui.tablesPanels.settingsEntities.brand.AddBrandDialog;
+import com.treathunter.ui.tablesPanels.settingsEntities.clothType.AddClothTypeDialog;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-public class UpdateClothDialog extends JDialog {
+public class AddClothDialog extends JDialog {
     private boolean createdEntity = false;
     private Cloth cloth;
 
-    UpdateClothDialog(Cloth oldCloth, JFrame owner, List<Brand> allBrands, List<ClothType> allClothTypes){
-        super(owner,"Изменить параметры одежды",true);
-        cloth = oldCloth;
+    AddClothDialog(JFrame owner, List<Brand> allBrands, List<ClothType> allClothTypes){
+        super(owner,"Добавить новую одежду",true);
+
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints cs = new GridBagConstraints();
         cs.fill = GridBagConstraints.HORIZONTAL;
-        //
+ //
 
         JLabel lbClothType = new JLabel("тип одежды: ");
         cs.gridx = 0;
@@ -34,13 +34,6 @@ public class UpdateClothDialog extends JDialog {
         cs.gridy = 0;
         cs.gridwidth = 1;
         panel.add(clothTypedCmb, cs);
-
-        int clothTypeIndex = allClothTypes.indexOf(allClothTypes
-                .stream()
-                .filter( el -> cloth.getClothType().getId() == el.getId())
-                .findAny()
-                .orElse(null));
-        clothTypedCmb.setSelectedIndex(clothTypeIndex);
 
         cs.gridx = 2;
         cs.gridy = 0;
@@ -75,12 +68,6 @@ public class UpdateClothDialog extends JDialog {
         cs.gridy = 1;
         cs.gridwidth = 1;
         panel.add(brandCmb, cs);
-        int brandIndex = allBrands.indexOf(allBrands
-                .stream()
-                .filter( el -> cloth.getBrand().getId() == el.getId())
-                .findAny()
-                .orElse(null));
-        brandCmb.setSelectedIndex(brandIndex);
 
         cs.gridx = 2;
         cs.gridy = 1;
@@ -114,7 +101,6 @@ public class UpdateClothDialog extends JDialog {
         cs.gridy = 2;
         cs.gridwidth = 2;
         panel.add(tfName, cs);
-        tfName.setText(cloth.getName());
 
         JLabel lbSize = new JLabel("Размер: ");
         cs.gridx = 0;
@@ -127,7 +113,6 @@ public class UpdateClothDialog extends JDialog {
         cs.gridy = 3;
         cs.gridwidth = 2;
         panel.add(tfSize, cs);
-        tfSize.setText(cloth.getSize());
 
         JLabel lbPrice = new JLabel("цена: ");
         cs.gridx = 0;
@@ -140,7 +125,6 @@ public class UpdateClothDialog extends JDialog {
         cs.gridy = 4;
         cs.gridwidth = 2;
         panel.add(tfPrice, cs);
-        tfPrice.setText(String.valueOf(cloth.getPrice()));
 
         JLabel lbBarcode = new JLabel("баркод: ");
         cs.gridx = 0;
@@ -153,7 +137,6 @@ public class UpdateClothDialog extends JDialog {
         cs.gridy = 5;
         cs.gridwidth = 2;
         panel.add(tfBarcode, cs);
-        tfBarcode.setText(String.valueOf(cloth.getBarcode()));
 
         JLabel lbStatus = new JLabel("cтатус товара: ");
         cs.gridx = 0;
@@ -166,7 +149,6 @@ public class UpdateClothDialog extends JDialog {
         cs.gridy = 6;
         cs.gridwidth = 2;
         panel.add(tfStatus, cs);
-        tfStatus.setText(cloth.getStatus());
 //
         JButton btnAccept = new JButton("Принять");
         btnAccept.addActionListener(event -> {

@@ -1,10 +1,9 @@
-package com.treathunter.ui.weapons;
+package com.treathunter.ui.tablesPanels.weapons;
 
-import com.treathunter.rest.entities.Cloth;
 import com.treathunter.rest.entities.Weapon;
-import com.treathunter.rest.services.ClothesService;
 import com.treathunter.rest.services.WeaponsService;
-import com.treathunter.ui.ProductTypeTableModel;
+import com.treathunter.ui.menuPanel.MenuPanel;
+import com.treathunter.ui.tablesPanels.ProductTypeTableModel;
 
 import javax.swing.*;
 import java.util.Arrays;
@@ -13,6 +12,7 @@ import java.util.function.Function;
 
 public class WeaponsPane extends JPanel {
     private final WeaponsService weaponsService;
+    private final MenuPanel menuPanel;
     private JFrame appframe;
     private ProductTypeTableModel<Weapon> productTypeTableModel;
     private JTable productTable;
@@ -23,6 +23,8 @@ public class WeaponsPane extends JPanel {
 
     public void generateActionsButtonPanel() {
         actionsButtonsPanel = new JPanel();
+        JButton returnButton = new JButton("Меню");
+        returnButton.addActionListener( e -> menuPanel.returnToMenu());
         addProduct = new JButton("добaвить");
         updateProduct = new JButton("изменить");
         deleteProduct = new JButton("удaлить");
@@ -76,10 +78,11 @@ public class WeaponsPane extends JPanel {
                         JOptionPane.ERROR_MESSAGE);
             }
         });
-
+        actionsButtonsPanel.add(returnButton);
         actionsButtonsPanel.add(addProduct);
         actionsButtonsPanel.add(updateProduct);
         actionsButtonsPanel.add(deleteProduct);
+        actionsButtonsPanel.setBorder(BorderFactory.createTitledBorder("панель управления"));
         this.add(actionsButtonsPanel);
     }
 
@@ -89,10 +92,10 @@ public class WeaponsPane extends JPanel {
         this.add(new JScrollPane(productTable));
     }
 
-    public WeaponsPane(WeaponsService weaponsService, JFrame appframe) {
+    public WeaponsPane(WeaponsService weaponsService, JFrame appframe,MenuPanel menuPanel) {
         this.weaponsService = weaponsService;
         this.appframe = appframe;
-
+        this.menuPanel = menuPanel;
         String[] ColumnNames = {
                 "id",
                 "weaponType",

@@ -1,4 +1,4 @@
-package com.treathunter.ui.settingsEntities.caliber;
+package com.treathunter.ui.tablesPanels.settingsEntities.caliber;
 
 import com.treathunter.rest.entities.Caliber;
 

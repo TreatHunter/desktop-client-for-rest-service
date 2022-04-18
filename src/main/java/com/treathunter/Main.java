@@ -2,8 +2,7 @@ package com.treathunter;
 
 import com.treathunter.rest.services.ClothesService;
 import com.treathunter.rest.services.WeaponsService;
-import com.treathunter.ui.clothes.ClothesPane;
-import com.treathunter.ui.weapons.WeaponsPane;
+import com.treathunter.ui.menuPanel.MenuPanel;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -31,16 +30,7 @@ public class Main implements CommandLineRunner {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1280,720);
         frame.setResizable(false);
-
-        JTabbedPane tabbedPane = new JTabbedPane();
-
-        ClothesPane clothesPane = new ClothesPane(clothesService, frame);
-        tabbedPane.addTab("Одежда",clothesPane);
-
-        WeaponsPane weaponsPane = new WeaponsPane(weaponsService,frame);
-        tabbedPane.addTab("Оружие",weaponsPane);
-
-        frame.setContentPane(tabbedPane);
+        frame.setContentPane(new MenuPanel(frame, clothesService, weaponsService));
         frame.setVisible(true);
 
     }

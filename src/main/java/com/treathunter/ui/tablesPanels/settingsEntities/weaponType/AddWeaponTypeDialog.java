@@ -1,16 +1,16 @@
-package com.treathunter.ui.settingsEntities.brand;
+package com.treathunter.ui.tablesPanels.settingsEntities.weaponType;
 
-import com.treathunter.rest.entities.Brand;
+import com.treathunter.rest.entities.WeaponType;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class AddBrandDialog extends JDialog {
+public class AddWeaponTypeDialog extends JDialog {
     private boolean createdEntity = false;
-    private Brand brand;
+    private WeaponType weaponType;
 
-    public AddBrandDialog(JDialog owner) {
-        super(owner,"Добавить новый бренд",true);
+    public AddWeaponTypeDialog(JDialog owner) {
+        super(owner,"Добавить новый тип оружия",true);
 
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints cs = new GridBagConstraints();
@@ -28,10 +28,22 @@ public class AddBrandDialog extends JDialog {
         cs.gridwidth = 2;
         panel.add(tfName, cs);
 
+        JLabel lbDescription = new JLabel("Описание: ");
+        cs.gridx = 0;
+        cs.gridy = 1;
+        cs.gridwidth = 1;
+        panel.add(lbDescription, cs);
+
+        JTextField tfDescription = new JTextField(20);
+        cs.gridx = 1;
+        cs.gridy = 1;
+        cs.gridwidth = 2;
+        panel.add(tfDescription, cs);
+
         //
         JButton btnAccept = new JButton("Принять");
         btnAccept.addActionListener(event -> {
-            brand = new Brand();
+            weaponType = new WeaponType();
 
             if (tfName.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(owner,
@@ -40,8 +52,16 @@ public class AddBrandDialog extends JDialog {
                         JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            brand.setName(tfName.getText());
-            brand.setLogoUrl("");
+            weaponType.setName(tfName.getText());
+
+            if (tfDescription.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(owner,
+                        "Некоректный ввод описания",
+                        "Некоректный ввод описания",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            weaponType.setDescription(tfDescription.getText());
 
             createdEntity = true;
             dispose();
@@ -69,8 +89,8 @@ public class AddBrandDialog extends JDialog {
         return createdEntity;
     }
 
-    public Brand getEntity() {
-        return brand;
+    public WeaponType getEntity() {
+        return weaponType;
     }
 
 }

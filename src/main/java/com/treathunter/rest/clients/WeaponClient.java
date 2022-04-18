@@ -24,4 +24,7 @@ public interface WeaponClient {
 
     @RequestLine("DELETE ?id={id}")
     void delete(@Param("id") String isbn);
+
+    @RequestLine("GET /barcode/{barcode}")
+    List<WeaponDto> findByBarcode (@Param("barcode") Long barcode);
 }

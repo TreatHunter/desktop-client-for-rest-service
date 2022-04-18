@@ -1,4 +1,4 @@
-package com.treathunter.ui.settingsEntities.clothType;
+package com.treathunter.ui.tablesPanels.settingsEntities.clothType;
 
 import com.treathunter.rest.entities.ClothType;
 

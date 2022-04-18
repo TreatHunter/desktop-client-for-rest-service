@@ -3,6 +3,7 @@ package com.treathunter.rest.services;
 import com.treathunter.rest.clients.*;
 import com.treathunter.rest.dto.BrandDto;
 import com.treathunter.rest.dto.CaliberDto;
+import com.treathunter.rest.dto.WeaponDto;
 import com.treathunter.rest.dto.WeaponTypeDto;
 import com.treathunter.rest.entities.Brand;
 import com.treathunter.rest.entities.Caliber;
@@ -14,6 +15,7 @@ import com.treathunter.rest.mappers.WeaponMapper;
 import com.treathunter.rest.mappers.WeaponTypeMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -95,6 +97,16 @@ public class WeaponsService {
             weapon.setCaliber(caliberMapper.caliberRequestDtoToCaliber(savedCaliberDto));
         }
         weaponClient.update(id, weaponMapper.weaponToWeaponResponseDto(weapon));
+    }
+
+    public List<Weapon> getWeaponByBarcode (Long barcode) {
+        List<WeaponDto> weaponDtos = new ArrayList<WeaponDto>();
+        try {
+            weaponDtos = weaponClient.findByBarcode(barcode);
+        } catch (Exception e) {
+
+        }
+        return weaponMapper.weaponRequestDtoToWeapon(weaponDtos);
     }
 
 }

@@ -1,10 +1,9 @@
-package com.treathunter.ui.weapons;
+package com.treathunter.ui.tablesPanels.weapons;
 
 import com.treathunter.rest.entities.*;
-import com.treathunter.ui.settingsEntities.brand.AddBrandDialog;
-import com.treathunter.ui.settingsEntities.caliber.AddCaliberDialog;
-import com.treathunter.ui.settingsEntities.clothType.AddClothTypeDialog;
-import com.treathunter.ui.settingsEntities.weaponType.AddWeaponTypeDialog;
+import com.treathunter.ui.tablesPanels.settingsEntities.brand.AddBrandDialog;
+import com.treathunter.ui.tablesPanels.settingsEntities.caliber.AddCaliberDialog;
+import com.treathunter.ui.tablesPanels.settingsEntities.weaponType.AddWeaponTypeDialog;
 
 import javax.swing.*;
 import java.awt.*;

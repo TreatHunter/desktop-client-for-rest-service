@@ -1,9 +1,8 @@
-package com.treathunter.ui;
+package com.treathunter.ui.tablesPanels;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 public class ProductTypeTableModel<T> extends AbstractTableModel {
     private final String[] columnNames;

@@ -24,4 +24,7 @@ public interface CartridgeBoxClient {
 
     @RequestLine("DELETE ?id={id}")
     void delete(@Param("id") String isbn);
+
+    @RequestLine("GET /barcode/{barcode}")
+    List<CartridgeBoxDto> findByBarcode (@Param("barcode") Long barcode);
 }
