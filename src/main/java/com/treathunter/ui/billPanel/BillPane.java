@@ -3,11 +3,11 @@ package com.treathunter.ui.billPanel;
 import com.treathunter.rest.entities.Cloth;
 import com.treathunter.rest.entities.Weapon;
 import com.treathunter.rest.services.ClothesService;
+import com.treathunter.rest.services.OperationService;
 import com.treathunter.rest.services.WeaponsService;
 import com.treathunter.ui.menuPanel.MenuPanel;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,6 +18,7 @@ public class BillPane extends JPanel {
     private final JFrame appFrame;
     private final ClothesService clothesService;
     private final WeaponsService weaponsService;
+    private final OperationService operationService;
     private ArrayList<Weapon> weapons = new ArrayList<Weapon>();
     private ArrayList<Cloth> cloths = new ArrayList<Cloth>();
 
@@ -105,19 +106,32 @@ public class BillPane extends JPanel {
         this.add(actionsButtonsPanel);
     }
 
-    public BillPane (JFrame appFrame, MenuPanel menuPanel, ClothesService clothesService, WeaponsService weaponsService) {
+    public BillPane(JFrame appFrame, MenuPanel menuPanel, ClothesService clothesService, WeaponsService weaponsService, OperationService operationService) {
         this.menuPanel = menuPanel;
         this.appFrame = appFrame;
         this.weaponsService = weaponsService;
         this.clothesService = clothesService;
+        this.operationService = operationService;
 
+        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         createButtonsPanel();
         billElementsListPane = new BillElementsListPane();
         this.add(billElementsListPane);
 
         JPanel bp = new JPanel();
         JButton btnAccept = new JButton("Завершить");
-        btnAccept.addActionListener(e -> clear());
+        btnAccept.addActionListener(e ->{
+            cloths.stream().forEach(el-> {
+                clothesService.deleteCloth(String.valueOf(el.getId()));
+                operationService.addBoughtOperationForCloth(el);
+            });
+
+            weapons.stream().forEach(el-> {
+                weaponsService.deleteWeapon(String.valueOf(el.getId()));
+                operationService.addBoughtOperationForWeapon(el);
+            });
+            clear();
+        });
         JButton btnCancel = new JButton("Очистить");
         btnCancel.addActionListener(e -> clear());
         bp.add(btnCancel);

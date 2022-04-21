@@ -101,4 +101,26 @@ public class ClientsConfiguration {
                 .target(CartridgeBoxClient.class, "http://localhost:8080/cartridgeboxes");
     }
 
+    @Bean
+    public OperationClient getOperationClient () {
+        return Feign.builder()
+                .client(new OkHttpClient())
+                .encoder(new GsonEncoder())
+                .decoder(new GsonDecoder())
+                .logger(new Slf4jLogger(OperationClient.class))
+                .logLevel(Logger.Level.FULL)
+                .target(OperationClient.class, "http://localhost:8080/operations");
+    }
+
+    @Bean
+    public CategoryClient getCategoryClient () {
+        return Feign.builder()
+                .client(new OkHttpClient())
+                .encoder(new GsonEncoder())
+                .decoder(new GsonDecoder())
+                .logger(new Slf4jLogger(CategoryClient.class))
+                .logLevel(Logger.Level.FULL)
+                .target(CategoryClient.class, "http://localhost:8080/categories");
+    }
+
 }
